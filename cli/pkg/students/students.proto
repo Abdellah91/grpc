@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package students;
+
+option go_package = "github.com/Abdellah91/grpc/cli";
+
+
+
+
+
+message Student{
+    string first_name = 2;
+    string last_name = 3;
+
+}
+
+message Decision {
+    string student_id = 1;
+    string message = 2;
+}
+/*
+protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative students/students.proto
+*/
+//protoc --go_out=plugins=grpc:./gen --go_opt=paths=source_relative students/service.proto
+
+
+service registration {
+    rpc AddStudent(Student) returns (Decision);
+}
+
