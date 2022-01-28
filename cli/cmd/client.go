@@ -18,7 +18,6 @@ import (
 )
 
 const (
-	address          = "localhost:4041"
 	defaultFirstName = "joe"
 	defaultLastName  = "don"
 )
@@ -35,6 +34,15 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("client called")
+		var address string
+		var firstName string
+		var lastName string
+
+		if len(os.Args) > 4 {
+			address = os.Args[2]
+			firstName = os.Args[3]
+			lastName = os.Args[4]
+		}
 		var conn *grpc.ClientConn
 		conn, err := grpc.Dial(address, grpc.WithInsecure())
 		if err != nil {
@@ -43,14 +51,6 @@ to quickly create a Cobra application.`,
 		defer conn.Close()
 
 		client := students.NewRegistrationClient(conn)
-
-		var firstName string
-		var lastName string
-
-		if len(os.Args) > 3 {
-			firstName = os.Args[2]
-			lastName = os.Args[3]
-		}
 
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"net/url"
 
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
@@ -15,11 +16,23 @@ import (
 
 	"context"
 
+	"github.com/zemirco/couchdb"
+
+	"os"
+
 	students "github.com/Abdellah91/grpc/cli/pkg/students"
+
+	"github.com/joho/godotenv"
 )
 
 type Server struct {
 	students.UnimplementedRegistrationServer
+}
+
+type studentDocument struct {
+	couchdb.Document
+	FirstName string
+	LastName  string
 }
 
 // serverCmd represents the server command
@@ -53,8 +66,42 @@ to quickly create a Cobra application.`,
 func (s *Server) AddStudent(ctx context.Context, request *students.Student) (*students.Decision, error) {
 
 	firstName := request.GetFirstName()
-	return &students.Decision{StudentId: "1", Message: firstName + " is registred with id " + "1"}, nil
+	lastName := request.GetLastName()
+	//getEnvVars()
+	dbUrl := os.Getenv("DB_URL")
+	username := os.Getenv("DB_USERNAME")
+	password := os.Getenv("DB_PASSWORD")
+	u, err := url.Parse(dbUrl)
+	if err != nil {
+		panic(err)
+	}
+	// create a new client
+	client, err := couchdb.NewAuthClient(username, password, u)
+	if err != nil {
+		panic(err)
+	}
+	//client, err := getDbClient(dbUrl, username, password)
 
+	db := client.Use("registration")
+	doc := &studentDocument{
+		FirstName: firstName,
+		LastName:  lastName,
+	}
+	res, err := db.Post(doc)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(res)
+	return &students.Decision{StudentId: firstName, Message: lastName + " is registred"}, nil
+
+}
+
+func getEnvVars() {
+
+	err := godotenv.Load("/home/properties.env")
+	if err != nil {
+		panic(err)
+	}
 }
 
 func init() {
