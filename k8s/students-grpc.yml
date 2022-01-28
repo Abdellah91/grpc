@@ -1,0 +1,44 @@
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  labels: 
+    app: grpc-students
+  name: grpc-students-deployment
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: grpc-students
+  template: 
+    metadata: 
+      labels: 
+        app: grpc-students
+    spec: 
+      containers: 
+        - 
+          env: 
+            - 
+              name: DB_URL
+              valueFrom: 
+                secretKeyRef: 
+                  key: DB_URL
+                  name: mysecret
+            - 
+              name: DB_USERNAME
+              valueFrom: 
+                secretKeyRef: 
+                  key: DB_USERNAME
+                  name: mysecret
+            - 
+              name: DB_PASSWORD
+              valueFrom: 
+                secretKeyRef: 
+                  key: DB_PASSWORD
+                  name: mysecret
+          image: abdella/students-grpc:3
+          args: ["server"]
+          name: grpc-students
+          ports: 
+            - 
+              containerPort: 4041

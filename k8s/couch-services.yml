@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: couch-service
+  labels:
+    app: couchdb
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5984
+    protocol: TCP
+    targetPort: 5984
+  selector:
+    app: couchdb         # label selector
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: couch-lb-svc
+  labels:
+    app: couchdb
+spec:
+  type: LoadBalancer            # lb service
+  ports:
+  - port: 5984
+    targetPort: 5984
+    protocol: TCP
+  selector:
+    app: couchdb
