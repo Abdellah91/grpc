@@ -1,0 +1,24 @@
+# permissions for end users to edit couchdbcreaters.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: couchdbcreater-editor-role
+rules:
+- apiGroups:
+  - db.couchdb
+  resources:
+  - couchdbcreaters
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - db.couchdb
+  resources:
+  - couchdbcreaters/status
+  verbs:
+  - get

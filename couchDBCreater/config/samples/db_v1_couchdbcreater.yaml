@@ -1,0 +1,11 @@
+apiVersion: db.couchdb/v1
+kind: CouchDBCreater
+metadata:
+  name: mydb6
+spec:
+  url: "34.71.1.143:5984"
+  database: mynewdb6
+  username: admin
+  password:
+    secret: mysecret
+    key: DB_PASSWORD

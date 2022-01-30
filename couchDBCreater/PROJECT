@@ -1,0 +1,16 @@
+domain: couchdb
+layout:
+- go.kubebuilder.io/v3
+projectName: couchdb-creater-operator
+repo: github.com/Abdellah91/grpc/couchDBCreater
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: couchdb
+  group: db
+  kind: CouchDBCreater
+  path: github.com/Abdellah91/grpc/couchDBCreater/api/v1
+  version: v1
+version: "3"
