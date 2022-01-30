@@ -1,0 +1,27 @@
+docker login -u abdella
+
+
+
+kubectl create ns demo
+
+kubectl create -f db_creds.yml -n demo
+
+kubectl create -f couchdb-ss.yml -n demo
+kubectl create -f couch-services.yml -n demo
+
+kubectl get svc -n demo  --> ext ip to use in crd and configmap
+
+db_url: http://35.238.112.227:5984/_utils/#login
+kubectl create -f db_v1_couchdbcreater.yaml -n demo
+kubectl create -f config.yml -n demo
+
+
+kubectl create -f students-grpc.yml -n demo
+
+kubectl create -f students-grpc-svc.yml -n demo
+
+kubectl get svc -n demo  --> use the ip in the next command
+
+kubectl -n demo run grpc-student-client --image=abdella/students-grpc:3 -- client 10.8.128.67:4041 abdellah bellahcene
+
+

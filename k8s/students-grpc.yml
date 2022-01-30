@@ -21,9 +21,9 @@ spec:
             - 
               name: DB_URL
               valueFrom: 
-                secretKeyRef: 
+                configMapKeyRef: 
                   key: DB_URL
-                  name: mysecret
+                  name: db-config
             - 
               name: DB_USERNAME
               valueFrom: 

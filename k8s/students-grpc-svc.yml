@@ -7,7 +7,7 @@ spec:
  - port: 4041
    protocol: TCP
    targetPort: 4041
-   nodePort: 32160
+   nodePort: 32164
  selector:
    app: grpc-students
  type: NodePort

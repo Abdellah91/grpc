@@ -4,6 +4,5 @@ metadata:
   name: mysecret
 type: Opaque
 stringData:
-  DB_URL: "http://34.71.1.143:5984/"
   DB_USERNAME: "admin"
-  DB_PASSWORD: "admin"
+  DB_PASSWORD: ""

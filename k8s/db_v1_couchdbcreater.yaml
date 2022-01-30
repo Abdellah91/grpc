@@ -1,0 +1,11 @@
+apiVersion: db.couchdb/v1
+kind: CouchDBCreater
+metadata:
+  name: registration
+spec:
+  url: "35.238.112.227:5984"
+  database: registration
+  username: admin
+  password:
+    secret: mysecret
+    key: DB_PASSWORD
